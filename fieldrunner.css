@@ -1,0 +1,88 @@
+h1, h2 {
+	text-align: center;
+}
+h2 {
+	border-bottom: thin solid #808080;
+}
+#sky {
+	display: none;
+	color: blue;
+	background-color: blue;
+	height: 340px;
+	position: absolute;
+	top: 120px;
+	left: 100px;
+}
+#field {
+	color: green;
+	background-color: green;
+	width: 100%;
+	height: 99px;
+	position: absolute;
+	left: 0px;
+	top: 240px;
+}
+#runner {
+	display: none;
+	border: none;
+}
+#winner {
+	border: none;
+	display: none;
+}
+#startScreen {
+	display: none;
+	position: absolute;
+	top: 120px;
+	left: 100px;
+	height: 340px;
+	text-align: left;
+}
+#startScreen div {
+	margin: 3em;
+	text-align: center;
+}
+#startButton {
+	display: block;
+	margin: 3em auto;
+	text-align: center;
+}
+#winScreen {
+	display: none;
+	border: thin solid black;
+	position: absolute;
+	top: 100px;
+	left: 100px;
+	height: 140px;
+	background-color: white;
+	color: red;
+	font-weight: bold;
+	text-align: center;
+}
+#replayButtonForm {
+	display: block;
+	margin: 10px auto;
+	text-align: center;
+}
+#replayButtonForm input {
+	margin: 10px 30px;
+}
+#backTo {
+	position: absolute;
+	top: 550px;
+	width: 99%;
+	border-top: thin solid #808080;
+}
+#buttonBox {
+	position: absolute;
+	top: 490px;
+	width: 99%;
+	text-align: center;
+	display: none;
+	margin: 0 auto;
+}
+#buttonBox input{
+	margin: 10px;
+}
+
+

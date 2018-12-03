@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Field Runner</title>
+
+		<link type="text/css" rel="Stylesheet" href="fieldrunner.css" />
+
+		<script src="../scripts/nordburg_common.js" ></script>
+	</head>
+	<body>
+		<h1>Field Runner</h1>
+
+		<h2>The easiest game on the internets.</h2>
+
+		<div id="sky">
+			<div id="runner">
+				<img src="runner-r1.png" alt="Field Runner" id="runnerPic">
+			</div>
+			<div id="winner">
+				<img src="runner-v1.png" alt="Field Runner" id="winnerPic">
+
+			</div>
+			<div id="winScreen">
+				<div id="winScreenText"></div>
+
+				<div>
+				<form name="replayButtonForm" id="replayButtonForm" method="POST" action="/">
+					<input type="button" id="replayButton" value="Yes"/>
+					<input type="submit" id="noButton" value="No" />
+				</form>
+
+				</div>
+			</div>
+			<div id="field">
+
+			</div>
+		</div>
+		<div id="startScreen">
+
+			<div>Welcome to Field Runner, the easiest game on the internets.  The object of the game is to run from one end of the field to the other.<br><br>Use your Arrow Keys to control the runner.<br><br>Click the Start Field Runner button to start.</div>
+
+			<form name="startButtonForm" id="startButtonForm" method="POST" action="/">
+			<input type="button" id="startButton" value="Start Field Runner" />
+
+			</form>
+		</div>
+		<div id="buttonBox">
+			<input type="image" id="leftButton" src="../images/goleft.gif" alt="left">
+			<input type="image" id="rightButton" src="../images/goright.gif" alt="right">
+		</div>
+
+		<div id="backTo">Back to <a href="/">Nordburg Solutions</a></div>	
+		<script src="fieldrunner.js"></script>
+	</body>
+</html>
+
