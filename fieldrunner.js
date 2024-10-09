@@ -221,17 +221,17 @@ function showVomit () {
 	}
 }
 
-addListener("keydown", window, checkKey);
-addListener("keyup", window, stopRunning);
-addListener("click", startButton, startGame);
-addListener("click", replayButton, startGame);
-addListener("mousedown", leftButton, runLeft);
-addListener("touchstart", leftButton, runLeft);
-addListener("mousedown", rightButton, runRight);
-addListener("touchstart", rightButton, runRight);
-addListener("mouseup", leftButton, stopRunning);
-addListener("touchleave", leftButton, stopRunning);
-addListener("mouseup", rightButton, stopRunning);
-addListener("touchleave", rightButton, stopRunning);
+window.addEventListener("keydown", checkKey, false);
+window.addEventListener("keyup", stopRunning, false);
+startButton.addEventListener("click", startGame, false);
+replayButton.addEventListener("click", startGame, false);
+leftButton.addEventListener("mousedown", runLeft, false);
+leftButton.addEventListener("touchstart", runLeft, false);
+rightButton.addEventListener("mousedown", runRight, false);
+rightButton.addEventListener("touchstart", runRight, false);
+leftButton.addEventListener("mouseup", stopRunning, false);
+leftButton.addEventListener("touchleave", stopRunning, false);
+rightButton.addEventListener("mouseup", stopRunning, false);
+rightButton.addEventListener("touchleave", stopRunning, false);
 
 init();
