@@ -6,8 +6,8 @@ h2 {
 }
 #sky {
 	display: none;
-	color: blue;
-	background-color: blue;
+	color: #83D4FF;
+	background-color: #83D4FF;
 	height: 340px;
 	position: absolute;
 	top: 120px;
@@ -81,8 +81,19 @@ h2 {
 	display: none;
 	margin: 0 auto;
 }
-#buttonBox input{
+#buttonBox button{
 	margin: 10px;
+	height: 39px;
+	width: 49px;
+	background-repeat: no-repeat;
+	border: none;
+	background-color: #00000000;
+	color: #00000000;
+}
+#leftButton {
+	background-image: url('../images/goleft.gif');
 }
 
-
+#rightButton {
+	background-image: url('../images/goright.gif');
+}
