@@ -143,17 +143,17 @@ function checkKey (e) {
 		var KeyID = (window.event) ? event.keyCode : e.keyCode;
 		switch(KeyID) { 
 			case 37:
-				runLeft ();
+				runLeft (e);
 				break;
 			case 39:
-				runRight ();
+				runRight (e);
 				break;
 			case 13:
 			case 32:
 				if (e.target == leftButton) {
-					runLeft();
+					runLeft(e);
 				} else if (e.target == rightButton) {
-					runRight();
+					runRight(e);
 				}
 				break;
 			//default:
@@ -188,12 +188,14 @@ function goLeft () {
 	}
 
 }
-function runLeft () {
+function runLeft (e) {
+	e.preventDefault();
 	if (intervalID === null) {
 		intervalID = setInterval('goLeft()', 50);
 	}
 }
-function runRight () {
+function runRight (e) {
+	e.preventDefault();
 	if (intervalID === null) {
 		intervalID = setInterval('goRight()', 50);
 	}
