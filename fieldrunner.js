@@ -232,8 +232,8 @@ leftButton.addEventListener("touchstart", runLeft, false);
 rightButton.addEventListener("mousedown", runRight, false);
 rightButton.addEventListener("touchstart", runRight, false);
 leftButton.addEventListener("mouseup", stopRunning, false);
-leftButton.addEventListener("touchleave", stopRunning, false);
+leftButton.addEventListener("touchend", stopRunning, false);
 rightButton.addEventListener("mouseup", stopRunning, false);
-rightButton.addEventListener("touchleave", stopRunning, false);
+rightButton.addEventListener("touchend", stopRunning, false);
 
 init();
