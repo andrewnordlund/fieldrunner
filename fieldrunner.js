@@ -29,6 +29,8 @@ var replayButton = document.getElementById("replayButton");
 var leftButton = document.getElementById("leftButton");
 var rightButton = document.getElementById("rightButton");
 
+var leftBtnRect = leftButton.getBoundingClientRect();
+var rightBtnRect = rightButton.getBoundingClientRect();
 
 
 function init () {
@@ -223,6 +225,19 @@ function showVomit () {
 	}
 }
 
+function handleMove (e) {
+	console.log ("Handling move: " + e.target.id + ".");
+	console.log ("Handling move: x: " + e.changedTouches[0].pageX + ", y: " + e.changedTouches[0].pageY + ".");
+	let x = leftBtnRect.left; //e.target.offsetLeft;
+	let rect = e.target.getBoundingClientRect();
+	//console.log ("Handling move target (x): " + x +"px");
+	console.log ("Handling move rect.left: " + rect.left +"px to rect.right: " + rect.right + "px");
+	console.log ("Width: " + rect.width + "px");
+
+
+	if (e.changedTouches[0].pageX < rect.left || e.changedTouches[0].pageX > rect.right || e.changedTouches[0].pageY < rect.top || e.changedTouches[0].pageY > rect.bottom) stopRunning(e);
+} // End of handleMove
+
 window.addEventListener("keydown", checkKey, false);
 window.addEventListener("keyup", stopRunning, false);
 startButton.addEventListener("click", startGame, false);
@@ -237,5 +252,8 @@ leftButton.addEventListener("touchcancel", stopRunning, false);
 rightButton.addEventListener("mouseup", stopRunning, false);
 rightButton.addEventListener("touchend", stopRunning, false);
 rightButton.addEventListener("touchcancel", stopRunning, false);
+
+leftButton.addEventListener("touchmove", handleMove, false);
+rightButton.addEventListener("touchmove", handleMove, false);
 
 init();
