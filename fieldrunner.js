@@ -1,3 +1,4 @@
+let dbug = !true;
 var myRunner;
 var myRunnerPic;
 var myWinner;
@@ -191,20 +192,42 @@ function goLeft () {
 
 }
 function runLeft (e) {
+	if (e.type == "mousedown") {
+		if (dbug) console.log ("Mousedown left");
+		leftButton.addEventListener("mouseout", stopRunning, false);
+	} else if (e.type == "touchstart") {
+		if (dbug) console.log ("Touchdown left");
+		leftButton.addEventListener("touchmove", handleTouchMove, false);
+	}
+
 	e.preventDefault();
 	if (intervalID === null) {
 		intervalID = setInterval('goLeft()', 50);
 	}
 }
 function runRight (e) {
+	if (e.type == "mousedown") {
+		if (dbug) console.log ("Mousedown right");
+		rightButton.addEventListener("mouseout", stopRunning, false);
+	} else if (e.type == "touchstart") {
+		if (dbug) console.log ("Touchdown right");
+		rightButton.addEventListener("touchmove", handleTouchMove, false);
+	}
+
 	e.preventDefault();
 	if (intervalID === null) {
 		intervalID = setInterval('goRight()', 50);
 	}
 }
 function stopRunning () {
+	if (dbug) console.log ("StopRunning");
 	clearInterval(intervalID);
 	intervalID = null;
+	leftButton.removeEventListener("mouseout", stopRunning);
+	rightButton.removeEventListener("mouseout", stopRunning);
+	//leftButton.removeEventListener("touchmove", handleTouchMove);
+	//rightButton.removeEventListener("touchmove", handleTouchMove);
+	if (dbug) console.log ("Stopped Running");
 }
 function youWin () {
 	clearInterval(intervalID);
@@ -225,35 +248,63 @@ function showVomit () {
 	}
 }
 
-function handleMove (e) {
-	console.log ("Handling move: " + e.target.id + ".");
-	console.log ("Handling move: x: " + e.changedTouches[0].pageX + ", y: " + e.changedTouches[0].pageY + ".");
-	let x = leftBtnRect.left; //e.target.offsetLeft;
+function handleTouchMove (e) {
+	if (dbug) {
+		console.log ("Handling move: " + e.target.id + ".");
+		console.log ("Handling move: x: " + e.changedTouches[0].clientX + ", y: " + e.changedTouches[0].clientY + ".");
+	}
+	//let x = leftBtnRect.left; //e.target.offsetLeft;
 	let rect = e.target.getBoundingClientRect();
 	//console.log ("Handling move target (x): " + x +"px");
-	console.log ("Handling move rect.left: " + rect.left +"px to rect.right: " + rect.right + "px");
-	console.log ("Width: " + rect.width + "px");
+	if (dbug) {
+		console.log ("Handling move rect.left: " + rect.left +"px to rect.right: " + rect.right + "px, rect.top: " + rect.top +"px to rect.bottom: " + rect.bottom + "px");
+		console.log ("Width: " + rect.width + "px");
+	}
+	isOut (e, e.changedTouches[0].clientX, e.changedTouches[0].clientY, rect.left, rect.top, rect.right, rect.bottom);
+} // End of handleTouchMove
 
-
-	if (e.changedTouches[0].pageX < rect.left || e.changedTouches[0].pageX > rect.right || e.changedTouches[0].pageY < rect.top || e.changedTouches[0].pageY > rect.bottom) stopRunning(e);
+function isOut (e, px, py, leftb, topb, rightb, bottomb) {
+	if (dbug) console.log (`isOut: Is ${px} betwixt ${leftb} and ${rightb} and is ${py} betwixt ${topb} and ${bottomb}?`);
+	if (px < leftb || px > rightb || py < topb || py > bottomb) {
+		if (dbug) console.log ("No.  Stopping the run.");
+		stopRunning(e);
+	} else {
+		if (dbug) console.log ("Yes.  Keep running!");
+	}
 } // End of handleMove
 
+/*
+function handleMouseMove (e) {
+	if (dbug) {
+		console.log ("Handling mouse move: " + e.target.id + ".");
+		console.log ("Handling mouse move: x: " + e.pageX + ", y: " + e.pageY + ".");
+	}
+	//let x = leftBtnRect.left; //e.target.offsetLeft;
+	let rect = e.target.getBoundingClientRect();
+	//console.log ("Handling move target (x): " + x +"px");
+	if (dbug) {
+		console.log ("Handling move rect.left: " + rect.left +"px to rect.right: " + rect.right + "px");
+		console.log ("Width: " + rect.width + "px");
+	}
+
+	isOut (e, e.pageX, e.pageY, rect.left, rect.top, rect.right, rect.bottom);
+} // End of handleMousehMove
+*/
 window.addEventListener("keydown", checkKey, false);
 window.addEventListener("keyup", stopRunning, false);
 startButton.addEventListener("click", startGame, false);
 replayButton.addEventListener("click", startGame, false);
+
 leftButton.addEventListener("mousedown", runLeft, false);
 leftButton.addEventListener("touchstart", runLeft, false);
 rightButton.addEventListener("mousedown", runRight, false);
 rightButton.addEventListener("touchstart", runRight, false);
+
 leftButton.addEventListener("mouseup", stopRunning, false);
 leftButton.addEventListener("touchend", stopRunning, false);
 leftButton.addEventListener("touchcancel", stopRunning, false);
 rightButton.addEventListener("mouseup", stopRunning, false);
 rightButton.addEventListener("touchend", stopRunning, false);
 rightButton.addEventListener("touchcancel", stopRunning, false);
-
-leftButton.addEventListener("touchmove", handleMove, false);
-rightButton.addEventListener("touchmove", handleMove, false);
 
 init();
