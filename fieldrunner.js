@@ -1,4 +1,6 @@
 let dbug = !true;
+const version = "1.1.0";
+const lastUpdated = "2025-02-22";
 var myRunner;
 var myRunnerPic;
 var myWinner;
@@ -101,10 +103,14 @@ function init () {
 	myStart.border = "thin solid black";
 	myStart.width = parseInt(screenW - 200) + "px";
 	document.startButtonForm.startButton.focus();
+	startButton.addEventListener("click", startGame, false);
 	//alert ("The object of the game is to fly to the other end of the sky. " + myStart.width);
 	
 }
 function startGame () {
+	startButton.removeEventListener("click", startGame);
+	replayButton.removeEventListener("click", startGame);
+	startEventHandling();
 	screenH = document.body.clientHeight;
 	screenW = document.body.clientWidth;
 	clearInterval(intervalID);
@@ -231,6 +237,7 @@ function stopRunning () {
 }
 function youWin () {
 	clearInterval(intervalID);
+	stopEventHandling();
 	won = "yup";
 	endTime = new Date ();
 	myRunner.display = "none";
@@ -240,6 +247,7 @@ function youWin () {
 	vIntervalID = setInterval('showVomit ()', 1000);
 	myWin.display = "block";
 	document.getElementById('winScreen').focus();
+	replayButton.addEventListener("click", startGame, false);
 	//document.replayButtonForm.replayButton.focus();
 }
 function showVomit () {
@@ -291,21 +299,39 @@ function handleMouseMove (e) {
 	isOut (e, e.pageX, e.pageY, rect.left, rect.top, rect.right, rect.bottom);
 } // End of handleMousehMove
 */
-window.addEventListener("keydown", checkKey, false);
-window.addEventListener("keyup", stopRunning, false);
-startButton.addEventListener("click", startGame, false);
-replayButton.addEventListener("click", startGame, false);
 
-leftButton.addEventListener("mousedown", runLeft, false);
-leftButton.addEventListener("touchstart", runLeft, false);
-rightButton.addEventListener("mousedown", runRight, false);
-rightButton.addEventListener("touchstart", runRight, false);
+function startEventHandling () {
+	window.addEventListener("keydown", checkKey, false);
+	window.addEventListener("keyup", stopRunning, false);
 
-leftButton.addEventListener("mouseup", stopRunning, false);
-leftButton.addEventListener("touchend", stopRunning, false);
-leftButton.addEventListener("touchcancel", stopRunning, false);
-rightButton.addEventListener("mouseup", stopRunning, false);
-rightButton.addEventListener("touchend", stopRunning, false);
-rightButton.addEventListener("touchcancel", stopRunning, false);
+	leftButton.addEventListener("mousedown", runLeft, false);
+	leftButton.addEventListener("touchstart", runLeft, false);
+	rightButton.addEventListener("mousedown", runRight, false);
+	rightButton.addEventListener("touchstart", runRight, false);
+
+	leftButton.addEventListener("mouseup", stopRunning, false);
+	leftButton.addEventListener("touchend", stopRunning, false);
+	leftButton.addEventListener("touchcancel", stopRunning, false);
+	rightButton.addEventListener("mouseup", stopRunning, false);
+	rightButton.addEventListener("touchend", stopRunning, false);
+	rightButton.addEventListener("touchcancel", stopRunning, false);
+} // End of startEventHandling
+
+function stopEventHandling () {
+	window.removeEventListener("keydown", checkKey);
+	window.removeEventListener("keyup", stopRunning);
+
+	leftButton.removeEventListener("mousedown", runLeft);
+	leftButton.removeEventListener("touchstart", runLeft);
+	rightButton.removeEventListener("mousedown", runRight);
+	rightButton.removeEventListener("touchstart", runRight);
+
+	leftButton.removeEventListener("mouseup", stopRunning);
+	leftButton.removeEventListener("touchend", stopRunning);
+	leftButton.removeEventListener("touchcancel", stopRunning);
+	rightButton.removeEventListener("mouseup", stopRunning);
+	rightButton.removeEventListener("touchend", stopRunning);
+	rightButton.removeEventListener("touchcancel", stopRunning);
+} // End of stopEventHandling
 
 init();
