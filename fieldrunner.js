@@ -239,7 +239,8 @@ function youWin () {
 	document.getElementById('winScreenText').innerHTML = "You win!  Your score was " + timeE  + " seconds.<br>Would you like to play again?";
 	vIntervalID = setInterval('showVomit ()', 1000);
 	myWin.display = "block";
-	document.replayButtonForm.replayButton.focus();
+	document.getElementById('winScreen').focus();
+	//document.replayButtonForm.replayButton.focus();
 }
 function showVomit () {
 	tID = new Array();
