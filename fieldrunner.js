@@ -102,8 +102,9 @@ function init () {
 	myStart.display = "block";
 	myStart.border = "thin solid black";
 	myStart.width = parseInt(screenW - 200) + "px";
-	document.startButtonForm.startButton.focus();
+	//document.startButtonForm.startButton.focus();
 	startButton.addEventListener("click", startGame, false);
+	startButton.focus();
 	//alert ("The object of the game is to fly to the other end of the sky. " + myStart.width);
 	
 }
@@ -190,7 +191,14 @@ function goLeft () {
 		x = x - 5;
 		index++;
 		index = (index % 2);
-		if (x < 0) x = 0;
+		if (x <= 0) {
+			x = 0;
+			let ariaLiveRegion = document.getElementById("nordburgAriaLivePolite");
+			//if (ariaLiveRegion.textContent == "" && !ariaLiveRegion.textContent.match("/back at the beginning/")) {
+				nordburg.addPoliteMessage("");
+				nordburg.addPoliteMessage("Stop!  You're back at the beginning! Turn around and head for the finish line.  you can do it!");
+			//}
+		}
 		setPos (x, y, myRunner);
 		myRunnerPic.src = myLRunnerPics[index];
 
@@ -209,6 +217,8 @@ function runLeft (e) {
 	e.preventDefault();
 	if (intervalID === null) {
 		intervalID = setInterval('goLeft()', 50);
+		nordburg.addPoliteMessage("");
+		nordburg.addPoliteMessage("Getting Colder.");
 	}
 }
 function runRight (e) {
@@ -223,6 +233,8 @@ function runRight (e) {
 	e.preventDefault();
 	if (intervalID === null) {
 		intervalID = setInterval('goRight()', 50);
+		nordburg.addPoliteMessage("");
+		nordburg.addPoliteMessage("Getting Warmer.");
 	}
 }
 function stopRunning () {

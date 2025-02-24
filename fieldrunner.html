@@ -6,6 +6,7 @@
 		<title>Field Runner</title>
 
 		<link type="text/css" rel="Stylesheet" href="fieldrunner.css" />
+		<link type="text/css" rel="Stylesheet" href="/nordburg-lib/styles/nordburg.css" />
 
 	</head>
 	<body>
@@ -36,24 +37,26 @@
 
 			</div>
 		</div>
-		<div id="startScreen">
-			<div>
-				<p>Welcome to Field Runner, the easiest game on the internets.  The object of the game is to run from one end of the field to the other.</p>
-				<p>Use your Arrow Keys to control the runner.<br><br>Click the Start Field Runner button to start.</p>
+		<div id="gamePart" role="application" aria-label="Field Runner Game">
+			<div id="startScreen">
+				<div id="startInstructions">
+					<p>Welcome to Field Runner, the easiest game on the internets.  The object of the game is to run from one end of the field to the other.</p>
+					<p>Use your Arrow Keys to control the runner.</p>
+					<p>Click the Start Field Runner button to start.</p>
+				</div>
+
+				<button id="startButton" aria-describedby="startInstructions">Start Field Runner</button>
+
 			</div>
-
-			<form name="startButtonForm" id="startButtonForm" method="POST" action="/">
-			<input type="button" id="startButton" value="Start Field Runner" />
-
-			</form>
+			<div id="buttonBox">
+				<button id="leftButton" aria-label="left">Left</button>
+				<button id="rightButton" aria-label="right">Right</button>
+			</div>
 		</div>
-		<div id="buttonBox">
-			<button id="leftButton" aria-label="left">Left</button>
-			<button id="rightButton" aria-label="right">Right</button>
-		</div>
-
 		<div id="backTo">Back to <a href="/">Nordburg Solutions</a></div>	
 		<script src="fieldrunner.js"></script>
+		<script src="/nordburg-lib/scripts/nordburg_common.js"></script>
+		<div id="nordburgAriaLivePolite" aria-live="polite" aria-relevant="additions" class="wb-inv invisibleStuff"></div>
 	</body>
 </html>
 
