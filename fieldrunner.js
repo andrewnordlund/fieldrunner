@@ -22,6 +22,7 @@ var myRRunnerPics;
 var myLRunnerPics;
 var index;
 var intervalID = null;
+var intervalID = null;
 var vIntervalID;
 var myButtons;
 var vomiting;
@@ -187,21 +188,24 @@ function goRight () {
 }
 
 function goLeft () {
-	if (x > 0 && won == "notyet") {
-		x = x - 5;
-		index++;
-		index = (index % 2);
-		if (x <= 0) {
-			x = 0;
-			let ariaLiveRegion = document.getElementById("nordburgAriaLivePolite");
-			//if (ariaLiveRegion.textContent == "" && !ariaLiveRegion.textContent.match("/back at the beginning/")) {
-				nordburg.addPoliteMessage("");
-				nordburg.addPoliteMessage("Stop!  You're back at the beginning! Turn around and head for the finish line.  you can do it!");
-			//}
+	if (won == "notyet") {
+		if (x > 0) {
+			x = x - 5;
+			index++;
+			index = (index % 2);
+			if (x <= 0) {
+				x = 0;
+				let ariaLiveRegion = document.getElementById("nordburgAriaLivePolite");
+				//if (ariaLiveRegion.textContent == "" && !ariaLiveRegion.textContent.match("/back at the beginning/")) {
+					//nordburg.addPoliteMessage("");
+					nordburg.addPoliteMessage("Stop!  You're back at the beginning! Turn around and head for the finish line.  you can do it!");
+				//}
+			}
+			setPos (x, y, myRunner);
+			myRunnerPic.src = myLRunnerPics[index];
+		} else {
+			nordburg.addPoliteMessage("Stop!  You're back at the beginning! Turn around and head for the finish line.  you can do it!");
 		}
-		setPos (x, y, myRunner);
-		myRunnerPic.src = myLRunnerPics[index];
-
 	}
 
 }
@@ -217,8 +221,9 @@ function runLeft (e) {
 	e.preventDefault();
 	if (intervalID === null) {
 		intervalID = setInterval('goLeft()', 50);
-		nordburg.addPoliteMessage("");
-		nordburg.addPoliteMessage("Getting Colder.");
+		nordburg.replacePoliteMessage("");
+		nordburg.replacePoliteMessage("Getting Colder.");
+
 	}
 }
 function runRight (e) {
@@ -233,8 +238,8 @@ function runRight (e) {
 	e.preventDefault();
 	if (intervalID === null) {
 		intervalID = setInterval('goRight()', 50);
-		nordburg.addPoliteMessage("");
-		nordburg.addPoliteMessage("Getting Warmer.");
+		//nordburg.replacePoliteMessage("");
+		nordburg.replacePoliteMessage("Getting Warmer.");
 	}
 }
 function stopRunning () {
