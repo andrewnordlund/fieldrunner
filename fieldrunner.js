@@ -27,11 +27,14 @@ var vIntervalID;
 var myButtons;
 var vomiting;
 var tID;
+let gamePart = null;
 
 var startButton = document.getElementById("startButton");
 var replayButton = document.getElementById("replayButton");
 var leftButton = document.getElementById("leftButton");
 var rightButton = document.getElementById("rightButton");
+
+gamePart = document.getElementById("gamePart");
 
 var leftBtnRect = leftButton.getBoundingClientRect();
 var rightBtnRect = rightButton.getBoundingClientRect();
@@ -104,7 +107,10 @@ function init () {
 	myStart.border = "thin solid black";
 	myStart.width = parseInt(screenW - 200) + "px";
 	//document.startButtonForm.startButton.focus();
-	startButton.addEventListener("click", startGame, false);
+	startButton.addEventListener("click", function () {
+			if (gamePart) gamePart.focus();
+			startGame();
+			}, false);
 	startButton.focus();
 	//alert ("The object of the game is to fly to the other end of the sky. " + myStart.width);
 	

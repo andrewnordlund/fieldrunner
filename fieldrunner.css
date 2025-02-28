@@ -9,9 +9,9 @@ h2 {
 	color: #83D4FF;
 	background-color: #83D4FF;
 	height: 340px;
-	position: absolute;
-	top: 120px;
-	left: 100px;
+	position: relative;
+	top: 0px;
+	left: 0px;
 }
 #field {
 	color: green;
@@ -30,11 +30,16 @@ h2 {
 	border: none;
 	display: none;
 }
+#gamePart, #startScreen {
+	position:absolute;
+	margin: 1em 7%;
+	height: 440px;
+}
+
 #startScreen {
 	display: none;
-	position: absolute;
-	top: 120px;
-	left: 100px;
+	/*top: 120px;
+	left: 100px;*/
 	height: 340px;
 	text-align: left;
 }
@@ -77,7 +82,7 @@ h2 {
 }
 #buttonBox {
 	position: absolute;
-	top: 490px;
+	top: 350px;
 	width: 99%;
 	text-align: center;
 	display: none;
@@ -99,3 +104,5 @@ h2 {
 #rightButton {
 	background-image: url('../images/goright.gif');
 }
+
+
