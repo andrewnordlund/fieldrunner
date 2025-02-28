@@ -107,15 +107,13 @@ function init () {
 	myStart.border = "thin solid black";
 	myStart.width = parseInt(screenW - 200) + "px";
 	//document.startButtonForm.startButton.focus();
-	startButton.addEventListener("click", function () {
-			if (gamePart) gamePart.focus();
-			startGame();
-			}, false);
+	startButton.addEventListener("click", startGame, false);
 	startButton.focus();
 	//alert ("The object of the game is to fly to the other end of the sky. " + myStart.width);
 	
 }
 function startGame () {
+	if (gamePart) gamePart.focus();
 	startButton.removeEventListener("click", startGame);
 	replayButton.removeEventListener("click", startGame);
 	startEventHandling();
