@@ -1,3 +1,6 @@
+body {
+	padding: inherit 0;
+}	 
 h1, h2 {
 	text-align: center;
 }
@@ -12,6 +15,7 @@ h2 {
 	position: relative;
 	top: 0px;
 	left: 0px;
+	width: 100%;
 }
 #field {
 	color: green;
@@ -33,25 +37,30 @@ h2 {
 #gamePart {
 	position: absolute;
 	margin: 1em 7%;
+	width: 86%;
 }
 #gamePart, #startScreen {
 	padding: 0;
 	height: 340px;
 }
-
 #startScreen {
-padding: 1em;
+	padding: 0;;
+	width: 100%;
+	height: 100%;
 	border: thin solid red;
 	display: none;
-	/*top: 120px;
-	left: 100px;*/
+	top: 0;
+	left: 0;
 	text-align: left;
-	overflow-y: scroll;
-	margin: 0 10%;
 }
-#startScreen div {
-	/*margin: 3em;*/
+#startInstructions{
+	margin: 7% 5%;
 	text-align: center;
+}
+#startInstructions p {
+	margin: 0.5em inherit;
+	line-height: 1.4em;
+	margin-bottom: 1em;
 }
 #startButton {
 	display: block;
@@ -62,9 +71,11 @@ padding: 1em;
 #winScreen {
 	display: none;
 	border: thin solid black;
-	position: absolute;
-	top: 100px;
-	left: 100px;
+	position: relative;
+	top: 5%;
+	/*left: 100px;*/
+	width: 80%;
+	margin: auto;
 	height: 140px;
 	background-color: white;
 	color: #AA0000;

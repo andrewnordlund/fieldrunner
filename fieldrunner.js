@@ -1,4 +1,4 @@
-let dbug = true;
+let dbug = !true;
 const version = "1.1.2";
 const lastUpdated = "2025-03-08";
 var myRunner;
@@ -8,12 +8,12 @@ var myWinnerPic;
 var mySky;
 var myStart;
 var myWin;
+let myWinEl;
 var x;
 var y;
 var maxX;
 var maxY;
 var won;
-var screenW;
 var screenH;
 var minWidth;
 var startTime;
@@ -50,8 +50,11 @@ function init () {
 	myWinnerPic = document.getElementById('winnerPic');
 	mySky = document.getElementById('sky').style;
 	myStart = document.getElementById('startScreen').style;
-	myWin = document.getElementById('winScreen').style;
+	myWinEl = document.getElementById('winScreen');
+	myWin = myWinEl.style;
+
 	setGameWidth ();
+
 	myButtons = document.getElementById('buttonBox').style;
 	myRRunnerPics = new Array();
 	myLRunnerPics = new Array();
@@ -106,11 +109,8 @@ function init () {
 	
 	myStart.display = "block";
 	myStart.border = "thin solid black";
-	//myStart.width = parseInt(screenW - 200) + "px";
-	//document.startButtonForm.startButton.focus();
 	
 	nordburgAriaLivePolite = document.getElementById("nordburgAriaLivePolite");
-	if (dbug) console.log ("Got nordburgAriaLivePolite: " + nordburgAriaLivePolite + ".");
 
 	startButton.addEventListener("click", startGame, false);
 	startButton.focus();
@@ -156,10 +156,12 @@ function restartGame () {
 } // End of restartGame
 
 function setGameWidth () {
-	screenW = document.body.clientWidth;
-	myWin.width = parseInt(screenW - 400) + "px";
-	mySky.width = parseInt(screenW - 200) + "px";
-	maxX = (screenW - 200 - 58);
+	let gpRect = gamePart.getBoundingClientRect();
+	maxX = gpRect.width - 58;
+	if (dbug) {
+		console.log ("gpRect: x:" + gpRect.x + ", left: " + gpRect.left + ", width: " + gpRect.width + ", right: " + gpRect.right + ".");
+		console.log ("Setting maxX to "  + maxX + ".");
+	}
 
 } // End of setGameWidth
 
@@ -269,7 +271,7 @@ function runRight (e) {
 } // End of runRight
 
 function stopRunning () {
-	if (dbug) console.log ("StopRunning");
+	//if (dbug) console.log ("StopRunning");
 	clearInterval(intervalID);
 	clearInterval(msgIntervalID);
 	intervalID = null;
@@ -278,7 +280,7 @@ function stopRunning () {
 	rightButton.removeEventListener("mouseout", stopRunning);
 	//leftButton.removeEventListener("touchmove", handleTouchMove);
 	//rightButton.removeEventListener("touchmove", handleTouchMove);
-	if (dbug) console.log ("Stopped Running");
+	//if (dbug) console.log ("Stopped Running");
 } // End of stopRunning
 
 function saySomething (msg) {
@@ -297,7 +299,7 @@ function youWin () {
 	document.getElementById('winScreenText').innerHTML = "You win!  Your score was " + timeE  + " seconds.<br>Would you like to play again?";
 	vIntervalID = setInterval('showVomit ()', 1000);
 	myWin.display = "block";
-	document.getElementById('winScreen').focus();
+	myWinEl.focus();
 	replayButton.addEventListener("click", startGame, false);
 	//document.replayButtonForm.replayButton.focus();
 }
