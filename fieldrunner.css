@@ -30,21 +30,27 @@ h2 {
 	border: none;
 	display: none;
 }
-#gamePart, #startScreen {
-	position:absolute;
+#gamePart {
+	position: absolute;
 	margin: 1em 7%;
-	height: 440px;
+}
+#gamePart, #startScreen {
+	padding: 0;
+	height: 340px;
 }
 
 #startScreen {
+padding: 1em;
+	border: thin solid red;
 	display: none;
 	/*top: 120px;
 	left: 100px;*/
-	height: 340px;
 	text-align: left;
+	overflow-y: scroll;
+	margin: 0 10%;
 }
 #startScreen div {
-	margin: 3em;
+	/*margin: 3em;*/
 	text-align: center;
 }
 #startButton {
@@ -104,5 +110,4 @@ h2 {
 #rightButton {
 	background-image: url('../images/goright.gif');
 }
-
 

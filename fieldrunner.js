@@ -1,6 +1,6 @@
-let dbug = !true;
-const version = "1.1.0";
-const lastUpdated = "2025-02-22";
+let dbug = true;
+const version = "1.1.2";
+const lastUpdated = "2025-03-08";
 var myRunner;
 var myRunnerPic;
 var myWinner;
@@ -22,8 +22,9 @@ var myRRunnerPics;
 var myLRunnerPics;
 var index;
 var intervalID = null;
-var intervalID = null;
-var vIntervalID;
+var msgIntervalID = null;
+var vIntervalID = null;
+let nordburgAriaLivePolite = null;
 var myButtons;
 var vomiting;
 var tID;
@@ -42,7 +43,6 @@ var rightBtnRect = rightButton.getBoundingClientRect();
 
 function init () {
 	minWidth = 640;
-	screenW = document.body.clientWidth;	
 	won = "starting";
 	myRunner = document.getElementById('runner').style;
 	myRunnerPic = document.getElementById('runnerPic');
@@ -51,6 +51,7 @@ function init () {
 	mySky = document.getElementById('sky').style;
 	myStart = document.getElementById('startScreen').style;
 	myWin = document.getElementById('winScreen').style;
+	setGameWidth ();
 	myButtons = document.getElementById('buttonBox').style;
 	myRRunnerPics = new Array();
 	myLRunnerPics = new Array();
@@ -105,26 +106,30 @@ function init () {
 	
 	myStart.display = "block";
 	myStart.border = "thin solid black";
-	myStart.width = parseInt(screenW - 200) + "px";
+	//myStart.width = parseInt(screenW - 200) + "px";
 	//document.startButtonForm.startButton.focus();
+	
+	nordburgAriaLivePolite = document.getElementById("nordburgAriaLivePolite");
+	if (dbug) console.log ("Got nordburgAriaLivePolite: " + nordburgAriaLivePolite + ".");
+
 	startButton.addEventListener("click", startGame, false);
 	startButton.focus();
 	//alert ("The object of the game is to fly to the other end of the sky. " + myStart.width);
 	
-}
+} // End of init
+
+
 function startGame () {
 	if (gamePart) gamePart.focus();
 	startButton.removeEventListener("click", startGame);
 	replayButton.removeEventListener("click", startGame);
 	startEventHandling();
 	screenH = document.body.clientHeight;
-	screenW = document.body.clientWidth;
+	
 	clearInterval(intervalID);
 	clearInterval(vIntervalID);
-	myWin.width = parseInt(screenW - 400) + "px";
+	setGameWidth();
 	won = "notyet";
-	mySky.width = parseInt(screenW - 200) + "px";
-	maxX = (screenW - 200 - 58);
 	maxY = 190;
 	x = 1;
 	y = maxY;
@@ -141,13 +146,23 @@ function startGame () {
 	startTime = new Date ();
 	intervalID = null;
 
-}
+} // End of startGame
+
 function restartGame () {
 	myWinner.display = "none";
 	clearInterval(vIntervalID);
 	startGame();
 	myRunnerPic.src = myRRunnerPics[0];
-}
+} // End of restartGame
+
+function setGameWidth () {
+	screenW = document.body.clientWidth;
+	myWin.width = parseInt(screenW - 400) + "px";
+	mySky.width = parseInt(screenW - 200) + "px";
+	maxX = (screenW - 200 - 58);
+
+} // End of setGameWidth
+
 function setPos (x, y, ref) {
 	ref.left = x + "px";
 	ref.top = y + "px";
@@ -192,6 +207,7 @@ function goRight () {
 }
 
 function goLeft () {
+	let stopMsg = "Stop!  You're back at the beginning! Turn around and head for the finish line.  you can do it!";
 	if (won == "notyet") {
 		if (x > 0) {
 			x = x - 5;
@@ -199,20 +215,19 @@ function goLeft () {
 			index = (index % 2);
 			if (x <= 0) {
 				x = 0;
-				let ariaLiveRegion = document.getElementById("nordburgAriaLivePolite");
-				//if (ariaLiveRegion.textContent == "" && !ariaLiveRegion.textContent.match("/back at the beginning/")) {
-					//nordburg.addPoliteMessage("");
-					nordburg.addPoliteMessage("Stop!  You're back at the beginning! Turn around and head for the finish line.  you can do it!");
-				//}
+				saySomething("");
+				clearInterval(msgIntervalID);
+				msgIntervalID = null;
 			}
 			setPos (x, y, myRunner);
 			myRunnerPic.src = myLRunnerPics[index];
-		} else {
-			nordburg.addPoliteMessage("Stop!  You're back at the beginning! Turn around and head for the finish line.  you can do it!");
+		}
+		if (x <= 0) {
+			if (nordburgAriaLivePolite.innerHTML == "") saySomething(stopMsg);
 		}
 	}
+} // End of goLeft
 
-}
 function runLeft (e) {
 	if (e.type == "mousedown") {
 		if (dbug) console.log ("Mousedown left");
@@ -224,12 +239,15 @@ function runLeft (e) {
 
 	e.preventDefault();
 	if (intervalID === null) {
-		intervalID = setInterval('goLeft()', 50);
-		nordburg.replacePoliteMessage("");
-		nordburg.replacePoliteMessage("Getting Colder.");
-
+		intervalID = setInterval(goLeft, 50);
 	}
-}
+	if (msgIntervalID === null && x > 0) {
+		let msg = "Getting colder";
+		saySomething(msg);
+		msgIntervalID = setInterval(saySomething, 2000, msg);
+	}
+} // End of runLeft
+
 function runRight (e) {
 	if (e.type == "mousedown") {
 		if (dbug) console.log ("Mousedown right");
@@ -241,21 +259,33 @@ function runRight (e) {
 
 	e.preventDefault();
 	if (intervalID === null) {
-		intervalID = setInterval('goRight()', 50);
-		//nordburg.replacePoliteMessage("");
-		nordburg.replacePoliteMessage("Getting Warmer.");
+		intervalID = setInterval(goRight, 50);
 	}
-}
+	if (msgIntervalID === null) {
+		let msg = "Getting warmer";
+		saySomething(msg);
+		msgIntervalID = setInterval(saySomething, 2500, msg);
+	}
+} // End of runRight
+
 function stopRunning () {
 	if (dbug) console.log ("StopRunning");
 	clearInterval(intervalID);
+	clearInterval(msgIntervalID);
 	intervalID = null;
+	msgIntervalID = null;
 	leftButton.removeEventListener("mouseout", stopRunning);
 	rightButton.removeEventListener("mouseout", stopRunning);
 	//leftButton.removeEventListener("touchmove", handleTouchMove);
 	//rightButton.removeEventListener("touchmove", handleTouchMove);
 	if (dbug) console.log ("Stopped Running");
-}
+} // End of stopRunning
+
+function saySomething (msg) {
+	if (dbug) console.log ("Saying something.");
+	nordburg.replacePoliteMessage(msg);
+} // End of saySomething
+
 function youWin () {
 	clearInterval(intervalID);
 	stopEventHandling();
