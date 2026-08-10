@@ -1,0 +1,41 @@
+name: Deploy This Website to Siteground
+on:
+  push:
+    branches: [main,dev]
+    
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Step
+        uses: actions/checkout@v4
+      - name: Copy files to dist
+        run: |
+          scripts/build.sh
+      - name: Set remote path
+        id: set_path
+        run: |
+          echo "Current branch is: ${{ github.ref_name }}"
+         
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            REMOTE_PATH=${{ vars.REMOTE_PATH_PROD }}
+          else
+            REMOTE_PATH=${{ vars.REMOTE_PATH_DEV }}
+          fi
+
+          echo "REMOTE_PATH=$REMOTE_PATH" >> $GITHUB_ENV
+          echo "Remote path: $REMOTE_PATH"
+ 
+      - name: Deploy using Rsync
+        uses: burnett01/rsync-deployments@6.0.0
+        with:
+          switches: -rlpgoDv --delete
+          path: dist/
+          remote_path: ${{ env.REMOTE_PATH }}
+          remote_host: ${{ vars.SSH_HOST }}
+          remote_port: ${{ vars.SSH_PORT }} 
+          remote_user: ${{ vars.SSH_USERNAME }}
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
